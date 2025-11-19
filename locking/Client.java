@@ -14,6 +14,8 @@ public class Client {
             banking.withdraw(50);
         });
 
+        th1.start();
+        th2.start();
 
     }
     
