@@ -1,49 +1,16 @@
 package executorFramework;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-
-class Callable1 implements Callable<Integer> {
-    @Override
-    public Integer call() throws Exception {
-        Thread.sleep(2000); 
-        System.out.println("Callable 1");
-        return 1;
-    }
-}
-
-class Callable2 implements Callable<Integer> {
-    @Override
-    public Integer call() throws Exception {
-        System.out.println("Callable 2");
-        return 2;
-    }
-}
-
-class Callable3 implements Callable<Integer> {
-    @Override
-    public Integer call() throws Exception {
-        System.out.println("Callable 3");
-        return 3;
-    }
-}
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class ExecuterServiceExample {
     
     public static void main(String[] args) {
         
-        ExecutorService service = Executors.newFixedThreadPool(3);
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(3);
+        scheduler.scheduleWithFixedDelay(() -> System.out.println("Running after 2 seconds"), 1000, 2000, TimeUnit.MILLISECONDS);
 
-        Callable<Integer> c1 = new Callable1();
 
-        Future<?> future = service.submit(c1);
-
-        future.cancel(true);
-
-        System.out.println(future.isCancelled());
-
-        service.shutdown();
+        scheduler.schedule(() -> scheduler.shutdown(), 10000, TimeUnit.MILLISECONDS);
     }   
-
 }
