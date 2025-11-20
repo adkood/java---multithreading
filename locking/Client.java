@@ -2,7 +2,7 @@ package locking;
 
 public class Client {
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         
         Banking banking = new Banking(100);
 
@@ -16,6 +16,7 @@ public class Client {
 
         th1.start();
         th2.start();
+        th2.interrupt();
 
     }
     
