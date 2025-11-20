@@ -1,4 +1,6 @@
 package executorFramework;
+import java.util.Calendar;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -17,25 +19,17 @@ public class ExecuterServiceExample {
 
     public static void main(String[] args) {
         
-        ExecuterServiceExample exp = new ExecuterServiceExample();
+        // ExecuterServiceExample exp = new ExecuterServiceExample();
 
         ExecutorService executorService = Executors.newFixedThreadPool(3);
-
-        for(int i = 0; i < 10; i++) {
-            int finalI = i;
-                
-            Future<?> future = executorService.submit(() -> exp.task(finalI));
-            
-            try {
-                System.out.println(future.get());
-            } catch (InterruptedException e) {
-               Thread.currentThread().interrupt();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-
+        // Runnable runnable = new MyRunnable();
+        Callable<String> callable = new MyCallable();
+        Future<String> future = executorService.submit(callable);
+        try {
+            System.out.println(future.get());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
         }
-
         executorService.shutdown();
     }
 
